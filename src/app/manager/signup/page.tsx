@@ -56,7 +56,6 @@ export default function ManagerSignup() {
             phone: formData.phone,
             role: 'manager',
           },
-          emailRedirectTo: undefined, // Disable email confirmation redirect
         },
       })
 
