@@ -50,13 +50,6 @@ export default function ManagerSignup() {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          data: {
-            full_name: formData.fullName,
-            phone: formData.phone,
-            role: 'manager',
-          },
-        },
       })
 
       if (signUpError) throw signUpError
