@@ -84,9 +84,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Filter to only include bookings for venues in user's organizations
-    const filteredBookings = bookings?.filter((booking: any) => {
+    const filteredBookings = bookings?.filter((booking: { pitches?: { locations?: { organization_id?: string } } }) => {
       const orgId = booking.pitches?.locations?.organization_id
-      return organizationIds.includes(orgId)
+      return orgId && organizationIds.includes(orgId)
     }) || []
 
     return NextResponse.json({ bookings: filteredBookings }, { status: 200 })
@@ -143,7 +143,7 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const organizationId = (booking.pitches as any)?.locations?.organization_id
+    const organizationId = (booking.pitches as { locations?: { organization_id?: string } })?.locations?.organization_id
 
     // Check if user has access to this organization
     const { data: userOrg, error: userOrgError } = await supabase
@@ -161,7 +161,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update booking
-    const updateData: any = { status }
+    const updateData: { status: string; confirmed_at?: string; cancelled_at?: string; cancellation_reason?: string } = { status }
 
     if (status === 'CONFIRMED') {
       updateData.confirmed_at = new Date().toISOString()

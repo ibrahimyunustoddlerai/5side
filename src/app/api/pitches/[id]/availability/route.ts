@@ -60,7 +60,7 @@ export async function GET(
     endOfDay.setHours(23, 59, 59, 999)
 
     // Check for pitch closures
-    const { data: closures, error: closuresError } = await supabase
+    const { data: closures } = await supabase
       .from('pitch_closures')
       .select('*')
       .eq('pitch_id', pitchId)
@@ -68,7 +68,7 @@ export async function GET(
       .gte('end_date', startOfDay.toISOString())
 
     // Get existing bookings for this day
-    const { data: bookings, error: bookingsError } = await supabase
+    const { data: bookings } = await supabase
       .from('bookings')
       .select('start_time, end_time')
       .eq('pitch_id', pitchId)
@@ -97,7 +97,7 @@ export async function GET(
         const isPast = slotEnd <= now
 
         // Check if slot overlaps with any booking
-        const isBooked = bookings?.some((booking: any) => {
+        const isBooked = bookings?.some((booking: { start_time: string; end_time: string }) => {
           const bookingStart = new Date(booking.start_time)
           const bookingEnd = new Date(booking.end_time)
           return (
@@ -108,7 +108,7 @@ export async function GET(
         }) || false
 
         // Check if slot overlaps with any closure
-        const isClosed = closures?.some((closure: any) => {
+        const isClosed = closures?.some((closure: { start_date: string; end_date: string }) => {
           const closureStart = new Date(closure.start_date)
           const closureEnd = new Date(closure.end_date)
           return (

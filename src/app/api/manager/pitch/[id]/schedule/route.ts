@@ -76,7 +76,7 @@ export async function POST(
       )
     }
 
-    const organizationId = (pitch.locations as any)?.organization_id
+    const organizationId = (pitch.locations as { organization_id?: string })?.organization_id
 
     // Check if user has access to this organization
     const { data: userOrg, error: userOrgError } = await supabase

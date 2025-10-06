@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
       endTime,
       organizerName,
       organizerEmail,
-      organizerPhone,
       notes,
     } = body
 

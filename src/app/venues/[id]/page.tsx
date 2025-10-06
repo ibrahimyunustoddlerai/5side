@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 
 interface Pitch {
   id: string
@@ -29,14 +28,9 @@ interface Location {
 }
 
 export default function VenueDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
   const [location, setLocation] = useState<Location | null>(null)
   const [pitches, setPitches] = useState<Pitch[]>([])
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    fetchVenueData()
-  }, [params.id])
 
   const fetchVenueData = async () => {
     try {
@@ -45,7 +39,7 @@ export default function VenueDetailPage({ params }: { params: { id: string } }) 
       const data = await response.json()
 
       if (response.ok) {
-        const venue = data.locations?.find((loc: any) => loc.id === params.id)
+        const venue = data.locations?.find((loc: { id: string }) => loc.id === params.id)
         if (venue) {
           setLocation({
             id: venue.id,
@@ -67,6 +61,11 @@ export default function VenueDetailPage({ params }: { params: { id: string } }) 
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchVenueData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.id])
 
   const getSurfaceLabel = (surface: string) => {
     const labels: Record<string, string> = {

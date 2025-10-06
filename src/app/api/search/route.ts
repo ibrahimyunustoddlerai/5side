@@ -66,33 +66,47 @@ export async function GET(request: NextRequest) {
     // Filter by city if specified
     let filteredPitches = pitches || []
     if (city) {
-      filteredPitches = filteredPitches.filter((pitch: any) =>
-        pitch.locations?.city?.toLowerCase().includes(city.toLowerCase())
-      )
+      filteredPitches = filteredPitches.filter((pitch: unknown) => {
+        const p = pitch as { locations?: unknown[] }
+        const locations = p.locations as unknown as { city?: string }
+        return locations?.city?.toLowerCase().includes(city.toLowerCase())
+      })
     }
 
     // Group pitches by location
     const locationsMap = new Map()
-    filteredPitches.forEach((pitch: any) => {
-      const location = pitch.locations
-      if (!location) return
+    filteredPitches.forEach((pitch: unknown) => {
+      const p = pitch as {
+        id: string;
+        name: string;
+        surface: string;
+        indoor: boolean;
+        price_per_hour: number;
+        size: string;
+        description: string;
+        images: string[];
+        locations?: unknown[];
+      }
+      const locations = p.locations as unknown as { id: string; [key: string]: unknown }
+      if (!locations) return
 
-      if (!locationsMap.has(location.id)) {
-        locationsMap.set(location.id, {
-          ...location,
+      if (!locationsMap.has(locations.id)) {
+        locationsMap.set(locations.id, {
+          ...locations,
           pitches: [],
         })
       }
 
-      locationsMap.get(location.id).pitches.push({
-        id: pitch.id,
-        name: pitch.name,
-        surface: pitch.surface,
-        indoor: pitch.indoor,
-        price_per_hour: pitch.price_per_hour,
-        size: pitch.size,
-        description: pitch.description,
-        images: pitch.images,
+      const locationData = locationsMap.get(locations.id) as { pitches: unknown[] }
+      locationData.pitches.push({
+        id: p.id,
+        name: p.name,
+        surface: p.surface,
+        indoor: p.indoor,
+        price_per_hour: p.price_per_hour,
+        size: p.size,
+        description: p.description,
+        images: p.images,
       })
     })
 

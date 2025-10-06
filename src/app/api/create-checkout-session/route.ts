@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
     // Format booking details
     const startTime = new Date(booking.start_time)
     const endTime = new Date(booking.end_time)
-    const pitchName = (booking.pitches as any)?.name || 'Pitch'
-    const venueName = (booking.pitches as any)?.locations?.name || 'Venue'
+    const pitchName = (booking.pitches as { name?: string })?.name || 'Pitch'
+    const venueName = (booking.pitches as { locations?: { name?: string } })?.locations?.name || 'Venue'
 
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({

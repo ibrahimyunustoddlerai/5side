@@ -41,7 +41,7 @@ export async function POST() {
     for (let i = 0; i < statements.length; i++) {
       const statement = statements[i] + ';'
       try {
-        const { data, error } = await supabase.rpc('exec_sql', {
+        const { error } = await supabase.rpc('exec_sql', {
           sql_query: statement,
         })
 
@@ -61,7 +61,7 @@ export async function POST() {
     }
 
     // Try direct approach using pg-like syntax
-    const { error: setupError } = await supabase.from('_migrations').select('*').limit(1)
+    await supabase.from('_migrations').select('*').limit(1)
 
     return NextResponse.json({
       message: 'Database setup attempted',

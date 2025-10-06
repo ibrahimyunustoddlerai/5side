@@ -40,6 +40,7 @@ export function SearchResultsEnhanced({ filters }: SearchResultsEnhancedProps) {
 
   useEffect(() => {
     searchPitches()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters])
 
   const searchPitches = async () => {

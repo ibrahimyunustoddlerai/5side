@@ -33,6 +33,7 @@ export function PitchScheduleForm({ pitchId, onSuccess, onCancel }: PitchSchedul
 
   useEffect(() => {
     fetchSchedules()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pitchId])
 
   const fetchSchedules = async () => {

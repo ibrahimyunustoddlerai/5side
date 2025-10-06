@@ -29,10 +29,10 @@ export default function MyBookingsPage() {
   const router = useRouter()
   const [bookings, setBookings] = useState<Booking[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
     checkAuthAndFetch()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const checkAuthAndFetch = async () => {
@@ -44,7 +44,6 @@ export default function MyBookingsPage() {
       return
     }
 
-    setUser(user)
     fetchBookings()
   }
 

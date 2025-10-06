@@ -58,6 +58,7 @@ export default function VenuesPage() {
     if (selectedOrg) {
       fetchVenues()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOrg])
 
   const fetchOrganizations = async () => {

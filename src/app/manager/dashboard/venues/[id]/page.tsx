@@ -48,6 +48,7 @@ export default function VenueDetailPage({ params }: { params: { id: string } }) 
     checkAuth()
     fetchVenue()
     fetchPitches()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id])
 
   const checkAuth = async () => {

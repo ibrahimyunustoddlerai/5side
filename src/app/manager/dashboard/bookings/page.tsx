@@ -40,6 +40,7 @@ export default function BookingsPage() {
   useEffect(() => {
     checkAuth()
     fetchBookings()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter])
 
   const checkAuth = async () => {
@@ -191,7 +192,7 @@ export default function BookingsPage() {
               <h3 className="mt-2 text-sm font-medium text-gray-900">No bookings</h3>
               <p className="mt-1 text-sm text-gray-500">
                 {filter === 'all'
-                  ? 'You don\'t have any bookings yet.'
+                  ? "You don't have any bookings yet."
                   : `No ${filter} bookings found.`}
               </p>
             </div>

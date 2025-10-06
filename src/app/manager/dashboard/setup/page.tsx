@@ -198,7 +198,7 @@ export default function ManagerSetup() {
                     <div className="flex items-start">
                       <span className="text-green-500 text-2xl mr-3">✓</span>
                       <div>
-                        <p className="font-semibold text-gray-900">Build your venue profile in under 10 mins</p>
+                        <p className="font-semibold text-gray-900">Build your venue profile in under 10 minutes</p>
                         <p className="text-sm text-gray-600">Quick and easy setup</p>
                       </div>
                     </div>
@@ -227,7 +227,7 @@ export default function ManagerSetup() {
                       <span className="text-green-500 text-2xl mr-3">✓</span>
                       <div>
                         <p className="font-semibold text-gray-900">24/7 support</p>
-                        <p className="text-sm text-gray-600">We're here to help</p>
+                        <p className="text-sm text-gray-600">We&apos;re here to help</p>
                       </div>
                     </div>
                   </div>

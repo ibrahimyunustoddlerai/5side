@@ -10,14 +10,6 @@ interface LocationSearchProps {
   initialLocation?: string
 }
 
-// Common UK cities for autocomplete
-const UK_CITIES = [
-  'London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow',
-  'Liverpool', 'Bristol', 'Edinburgh', 'Cardiff', 'Newcastle',
-  'Sheffield', 'Leicester', 'Coventry', 'Bradford', 'Nottingham',
-  'Brighton', 'Southampton', 'Reading', 'Oxford', 'Cambridge'
-]
-
 export function LocationSearch({ onLocationChange, initialLocation = '' }: LocationSearchProps) {
   const [searchQuery, setSearchQuery] = useState(initialLocation)
   const [isDetectingLocation, setIsDetectingLocation] = useState(false)
@@ -70,7 +62,7 @@ export function LocationSearch({ onLocationChange, initialLocation = '' }: Locat
       } else {
         const errorMsg = data.error || data.status || 'Location not found'
         console.error('Geocoding failed:', errorMsg)
-        alert(`Unable to find location "${query}". ${errorMsg}. Please check your Google Maps API key has Geocoding API enabled.`)
+        alert(`Unable to find location &quot;${query}&quot;. ${errorMsg}. Please check your Google Maps API key has Geocoding API enabled.`)
       }
     } catch (error) {
       console.error('Search error:', error)

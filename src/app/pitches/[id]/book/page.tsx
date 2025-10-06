@@ -39,7 +39,7 @@ export default function BookPitchPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true)
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [booking, setBooking] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
   const [notes, setNotes] = useState('')
 
   useEffect(() => {
@@ -48,12 +48,14 @@ export default function BookPitchPage({ params }: { params: { id: string } }) {
     // Set default date to today
     const today = new Date().toISOString().split('T')[0]
     setSelectedDate(today)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id])
 
   useEffect(() => {
     if (selectedDate) {
       fetchAvailability()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate])
 
   const checkAuth = async () => {
@@ -85,7 +87,19 @@ export default function BookPitchPage({ params }: { params: { id: string } }) {
         .single()
 
       if (error) throw error
-      setPitch(data)
+      // Map the data to match the Pitch type
+      if (data) {
+        const locations = (data.locations as unknown as { id: string; name: string; address: string; city: string }[])[0]
+        setPitch({
+          id: data.id,
+          name: data.name,
+          surface: data.surface,
+          indoor: data.indoor,
+          price_per_hour: data.price_per_hour,
+          size: data.size,
+          locations: locations
+        })
+      }
     } catch (error) {
       console.error('Error fetching pitch:', error)
     } finally {

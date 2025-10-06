@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createClient()
 
@@ -106,8 +106,8 @@ export async function GET(request: NextRequest) {
       throw fetchError
     }
 
-    const organizations = userOrganizations?.map((uo: any) => ({
-      ...uo.organization,
+    const organizations = userOrganizations?.map((uo: { organization: unknown; role: string }) => ({
+      ...(uo.organization as Record<string, unknown>),
       role: uo.role,
     })) || []
 

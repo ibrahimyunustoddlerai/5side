@@ -69,7 +69,7 @@ export async function POST(
       )
     }
 
-    const organizationId = (pitch.locations as any)?.organization_id
+    const organizationId = (pitch.locations as { organization_id?: string })?.organization_id
 
     // Check if user has access to this organization
     const { data: userOrg, error: userOrgError } = await supabase
@@ -158,7 +158,7 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const organizationId = (closure.pitches as any)?.locations?.organization_id
+    const organizationId = (closure.pitches as { locations?: { organization_id?: string } })?.locations?.organization_id
 
     // Check if user has access to this organization
     const { data: userOrg, error: userOrgError } = await supabase

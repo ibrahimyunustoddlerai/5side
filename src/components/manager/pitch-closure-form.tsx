@@ -34,6 +34,7 @@ export function PitchClosureForm({ pitchId, onSuccess, onCancel }: PitchClosureF
 
   useEffect(() => {
     fetchClosures()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pitchId])
 
   const fetchClosures = async () => {
@@ -85,6 +86,7 @@ export function PitchClosureForm({ pitchId, onSuccess, onCancel }: PitchClosureF
   }
 
   const handleDelete = async (closureId: string) => {
+    // eslint-disable-next-line no-restricted-globals
     if (!confirm('Are you sure you want to remove this blocked time?')) {
       return
     }
@@ -201,7 +203,7 @@ export function PitchClosureForm({ pitchId, onSuccess, onCancel }: PitchClosureF
       {/* Closures List */}
       {closures.length === 0 ? (
         <p className="text-sm text-gray-500 text-center py-4">
-          No blocked time slots. Click "Block Time" to add one.
+          No blocked time slots. Click &quot;Block Time&quot; to add one.
         </p>
       ) : (
         <div className="space-y-3">

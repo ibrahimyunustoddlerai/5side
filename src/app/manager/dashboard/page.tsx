@@ -21,11 +21,6 @@ export default function ManagerDashboard() {
   const [organizations, setOrganizations] = useState<Organization[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    checkAuth()
-    fetchOrganizations()
-  }, [])
-
   const checkAuth = async () => {
     const supabase = createClient()
     const {
@@ -51,6 +46,12 @@ export default function ManagerDashboard() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    checkAuth()
+    fetchOrganizations()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // If no organizations, redirect to setup
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function ManagerDashboard() {
             Manager Dashboard
           </h1>
           <p className="text-gray-600">
-            Welcome back! Here's an overview of your venues
+            Welcome back! Here&apos;s an overview of your venues
           </p>
         </div>
 

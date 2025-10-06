@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json()
 
     if (data.suggestions) {
-      const predictions = data.suggestions.map((s: any) => ({
+      const predictions = data.suggestions.map((s: { placePrediction?: { text?: { text?: string }; structuredFormat?: { mainText?: { text?: string } }; placeId?: string } }) => ({
         description: s.placePrediction?.text?.text || s.placePrediction?.structuredFormat?.mainText?.text || '',
         place_id: s.placePrediction?.placeId || '',
       }))
