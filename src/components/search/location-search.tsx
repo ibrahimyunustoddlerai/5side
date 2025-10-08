@@ -25,7 +25,7 @@ export function LocationSearch({ onLocationChange, initialLocation = '' }: Locat
           )
           const data = await response.json()
 
-          if (data.predictions && data.predictions.length > 0) {
+          if (data.predictions && Array.isArray(data.predictions) && data.predictions.length > 0) {
             setSuggestions(
               data.predictions.slice(0, 5).map((p: { description: string }) => p.description)
             )
