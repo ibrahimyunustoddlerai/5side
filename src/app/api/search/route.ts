@@ -75,9 +75,8 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // Group pitches by location
-    const locationsMap = new Map()
-    filteredPitches.forEach((pitch: unknown) => {
+    // Transform pitches to include location data for the UI
+    const pitchResults = filteredPitches.map((pitch: unknown) => {
       const p = pitch as {
         id: string;
         name: string;
@@ -87,36 +86,38 @@ export async function GET(request: NextRequest) {
         size: string;
         description: string;
         images: string[];
-        locations?: unknown[];
+        locations?: {
+          id: string;
+          name: string;
+          address: string;
+          city: string;
+          latitude: number;
+          longitude: number;
+          images: string[];
+        };
       }
-      const locations = p.locations as unknown as { id: string; [key: string]: unknown }
-      if (!locations) return
 
-      if (!locationsMap.has(locations.id)) {
-        locationsMap.set(locations.id, {
-          ...locations,
-          pitches: [],
-        })
-      }
-
-      const locationData = locationsMap.get(locations.id) as { pitches: unknown[] }
-      locationData.pitches.push({
+      return {
         id: p.id,
         name: p.name,
+        locationName: p.locations?.name || 'Unknown Location',
+        address: p.locations?.address || '',
+        distance: 0, // TODO: Calculate actual distance based on lat/lng
+        pricePerHour: p.price_per_hour,
         surface: p.surface,
         indoor: p.indoor,
-        price_per_hour: p.price_per_hour,
-        size: p.size,
-        description: p.description,
-        images: p.images,
-      })
+        images: p.images || [],
+        rating: 4.5, // TODO: Implement actual ratings
+        reviewCount: 0, // TODO: Implement actual review count
+        availableToday: true, // TODO: Check actual availability
+      }
     })
 
-    const locations = Array.from(locationsMap.values())
-
     return NextResponse.json({
-      locations,
-      total: locations.length,
+      pitches: pitchResults,
+      total: pitchResults.length,
+      page: 1,
+      limit: pitchResults.length,
     }, { status: 200 })
   } catch (error) {
     console.error('GET /api/search error:', error)

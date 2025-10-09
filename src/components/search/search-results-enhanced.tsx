@@ -79,9 +79,10 @@ export function SearchResultsEnhanced({ filters }: SearchResultsEnhancedProps) {
       }
 
       const data: SearchResponse = await response.json()
-      setPitches(data.pitches)
+      setPitches(Array.isArray(data.pitches) ? data.pitches : [])
     } catch (err) {
       setError('Failed to search pitches. Please try again.')
+      setPitches([]) // Reset to empty array on error
       console.error('Search error:', err)
     } finally {
       setLoading(false)
